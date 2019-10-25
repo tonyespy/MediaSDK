@@ -1,0 +1,66 @@
+name: intel-media-sdk
+base: core18 
+version: 'intel-mediasdk-19.3.0'
+summary: The Intel® Media SDK http://mediasdk.intel.com
+description: |
+  Intel® Media SDK provides a plain C API to access hardware-accelerated video
+  decode, encode and filtering on Intel® Gen graphics hardware platforms.
+  Implementation written in C++ 11 with parts in C-for-Media (CM).
+
+  Supported video encoders: HEVC, AVC, MPEG-2, JPEG, VP9 Supported video decoders:
+  HEVC, AVC, VP8, VP9, MPEG-2, VC1, JPEG Supported video pre-processing filters:
+  Color Conversion, Deinterlace, Denoise, Resize, Rotate, Composition
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: classic
+
+parts:
+  libva:
+    plugin: autotools
+    source: https://github.com/intel/libva.git
+    source-tag: 2.6.0.pre1
+    build-packages:
+      - libdrm-dev    
+      - pkg-config
+    stage-packages:
+      - libdrm2
+      - libgl1
+      - libglvnd0
+      - libglx0
+      - libx11-6
+      - libxau6
+      - libxcb1
+      - libxdmcp6
+      - libxext6
+      - libxfixes3
+  gmmlib:
+    plugin: cmake
+    source: https://github.com/intel/gmmlib.git
+    source-tag: intel-gmmlib-19.3.1
+    override-build: |
+      snapcraftctl build
+      # fixup broken pkgconfig
+      sed -i -e s:\=\/lib:\=\${execprefix}\/lib: -e s:\=\/include\/:\=\${prefix}\/include\/: \
+        $SNAPCRAFT_PART_INSTALL/lib/pkgconfig/igdgmm.pc
+  media-driver:
+    source: https://github.com/intel/media-driver.git
+    source-tag: intel-media-19.3.0
+    plugin: cmake
+    after: [libva, gmmlib]
+    build-packages:
+      - libdrm-dev
+      - libx11-dev
+      - libgl1-mesa-dev
+      - xorg-dev
+    stage-packages:
+      - libpciaccess0
+  media-sdk:
+    source: .
+    source-type: git
+    source-tag: intel-mediasdk-19.3.0
+    plugin: cmake
+    after: [libva, gmmlib, media-driver]
+
+    
+
+    
+
