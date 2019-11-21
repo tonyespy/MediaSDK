@@ -1,6 +1,6 @@
 name: intel-media-sdk
 base: core18 
-version: 'intel-mediasdk-19.3.0'
+version: 'intel-mediasdk-19.3.1'
 summary: The Intel® Media SDK http://mediasdk.intel.com
 description: |
   Intel® Media SDK provides a plain C API to access hardware-accelerated video
@@ -43,7 +43,7 @@ parts:
         $SNAPCRAFT_PART_INSTALL/lib/pkgconfig/igdgmm.pc
   media-driver:
     source: https://github.com/intel/media-driver.git
-    source-tag: intel-media-19.3.0
+    source-tag: intel-media-19.3.1
     plugin: cmake
     after: [libva, gmmlib]
     build-packages:
@@ -58,7 +58,7 @@ parts:
   media-sdk:
     source: .
     source-type: git
-    source-tag: intel-mediasdk-19.3.0
+    source-tag: intel-mediasdk-19.3.1
     plugin: cmake
     after: [libva, gmmlib, media-driver]
 
