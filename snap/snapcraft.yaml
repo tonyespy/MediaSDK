@@ -53,6 +53,8 @@ parts:
       - xorg-dev
     stage-packages:
       - libpciaccess0
+    organize:
+      usr/local/include/igfxcmrt: include/igfxcmrt
   media-sdk:
     source: .
     source-type: git
