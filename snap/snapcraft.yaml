@@ -41,6 +41,7 @@ parts:
       # fixup broken pkgconfig
       sed -i -e s:\=\/lib:\=\${execprefix}\/lib: -e s:\=\/include\/:\=\${prefix}\/include\/: \
         $SNAPCRAFT_PART_INSTALL/lib/pkgconfig/igdgmm.pc
+      # copy licenses
   media-driver:
     source: https://github.com/intel/media-driver.git
     source-tag: intel-media-19.3.1
@@ -55,6 +56,7 @@ parts:
       - libpciaccess0
     organize:
       usr/local/include/igfxcmrt: include/igfxcmrt
+      # copy licenses
   media-sdk:
     source: .
     source-type: git
@@ -74,3 +76,10 @@ parts:
       for i in `find . -type f`; do
           install -DT "$i" "$SNAPCRAFT_PART_INSTALL/doc/$i";
       done
+
+      cd ..
+
+      # copy licenses
+      install -DT ./LICENSE "$SNAPCRAFT_PART_INSTALL/usr/share/doc/intel-mediasdk/LICENSE"
+
+      # need to handle sample content (see vp9.ivf stream file for example)
