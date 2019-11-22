@@ -60,4 +60,6 @@ parts:
     source-type: git
     source-tag: intel-mediasdk-19.3.1
     plugin: cmake
+    configflags:
+    - -DBUILD_ALL=ON
     after: [libva, gmmlib, media-driver]
