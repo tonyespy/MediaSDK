@@ -63,3 +63,14 @@ parts:
     configflags:
     - -DBUILD_ALL=ON
     after: [libva, gmmlib, media-driver]
+    override-build: |
+      snapcraftctl build
+
+      install -Dd "$SNAPCRAFT_PART_INSTALL/doc/pic"
+      install -d "$SNAPCRAFT_PART_INSTALL/doc/samples"
+
+      cd "$SNAPCRAFT_PART_SRC/doc"
+
+      for i in `find . -type f`; do
+          install -DT "$i" "$SNAPCRAFT_PART_INSTALL/doc/$i";
+      done
